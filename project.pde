@@ -1,7 +1,12 @@
 import java.util.*;
 
+final int SCREENX = 900;
+final int SCREENY = 480;
+
+final int FLIGHTS_ON_THE_SCREEN = 20;
+
 String[] splitStr(String src, char delim) {
-  String[] res = new String[18]; //<>//
+  String[] res = new String[18];
   Arrays.fill(res, "");
   int i = 0;
   int prevDel = -1;
@@ -55,7 +60,12 @@ class Flight {
     diverted = data[16];
     distance = data[17];
   }
-
+  String toString() {
+   return flightDate + "," + IATACodeMarketingAirline + "," + flightNumberMarketingAirline + "," +
+            origin + "," + originCityName + "," + originState + "," + originWac + "," + dest + "," + destCityName + "," +
+            destState + "," + destWac + "," + CRSDepTime + "," + depTime + "," + CRSArrTime + "," + arrTime + "," +
+            cancelled + "," + diverted + "," + distance;
+  }
   void print() {
     println(flightDate + "," + IATACodeMarketingAirline + "," + flightNumberMarketingAirline + "," +
             origin + "," + originCityName + "," + originState + "," + originWac + "," + dest + "," + destCityName + "," +
@@ -64,10 +74,38 @@ class Flight {
   }
 }
 
+void mouseWheel(MouseEvent event) {
+  int scrolls = event.getCount();
+  firstFlightToDisplayIdx += scrolls;
+  if (firstFlightToDisplayIdx > Data.size() - FLIGHTS_ON_THE_SCREEN) {
+    firstFlightToDisplayIdx = Data.size() - FLIGHTS_ON_THE_SCREEN;
+  }
+  if (firstFlightToDisplayIdx < 0) {
+    firstFlightToDisplayIdx = 0;
+  }
+}
+
+void drawData() { //<>//
+  int curX = 10; 
+  int curY = 14;
+  for (int i = firstFlightToDisplayIdx; i < min(firstFlightToDisplayIdx + FLIGHTS_ON_THE_SCREEN, Data.size()); ++i) {
+    fill(255);
+    text(Data.get(i).toString(), curX, curY);
+    curY += 24;
+  }
+}
+
+int firstFlightToDisplayIdx = 0;
 List<Flight> Data = new ArrayList<Flight>();
 
 void setup() {
   selectInput("Select a file to process:", "fileSelected");
+  PFont flightFont = loadFont("Arial-Black-14.vlw");
+  textFont(flightFont);
+}
+
+void settings() {
+  size(SCREENX, SCREENY);
 }
 
 void fileSelected(File selection) {
@@ -83,4 +121,9 @@ void fileSelected(File selection) {
       Data.get(i).print();
     }
   }
+}
+
+void draw() {
+  background(0);
+  drawData();
 }
