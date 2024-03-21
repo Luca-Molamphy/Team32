@@ -1,4 +1,4 @@
-PFont stdFont; //<>//
+PFont stdFont;
 final int EVENT_AIRPORT=1;
 final int EVENT_DATE=2;
 final int EVENT_FLIGHT=3;
@@ -6,7 +6,7 @@ final int EVENT_HOME=4;
 final int EVENT_DATA=5;
 final int EVENT_RETURN=6;
 final int EVENT_NULL=0;
-PImage planeImage;
+PImage planeImage, flagImage;
 Screen currentScreen, homeScreen, airportScreen, dateScreen, flightScreen, dataScreen;
 
 void setup() {
@@ -21,6 +21,7 @@ void setup() {
   returnButton =new Widget(800, 58, 80, 40, "Return", stdFont, EVENT_RETURN);
   size(900, 600);
   planeImage = loadImage("plane.jpg");
+  flagImage = loadImage("usa.png");
   homeScreen = new Screen();
   airportScreen = new Screen();
   dateScreen = new Screen();
@@ -39,6 +40,7 @@ void setup() {
 void draw() {
   if (currentScreen == homeScreen) {
     image(planeImage, 0, 0, 900, 600);
+    
     fill(255);
     textSize(18);
     textAlign(RIGHT, TOP);
@@ -51,7 +53,8 @@ void draw() {
     pushMatrix();
     rotate(radians(-3));
     textSize(48);
-    text("FLIGHT", 190, 300);
+    text("  FLIGHT", 190, 300);
+    image(flagImage, 52, 266, 50, 34);
     rotate(radians(-9));
     text("TRACKER", 615, 365);
     popMatrix();
