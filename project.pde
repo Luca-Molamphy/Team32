@@ -88,6 +88,7 @@ void mouseWheel(MouseEvent event) {
 void drawData() { //<>//
   int curX = 10; 
   int curY = 14;
+textAlign(LEFT, TOP);
   for (int i = firstFlightToDisplayIdx; i < min(firstFlightToDisplayIdx + FLIGHTS_ON_THE_SCREEN, Data.size()); ++i) {
     fill(255);
     text(Data.get(i).toString(), curX, curY);
