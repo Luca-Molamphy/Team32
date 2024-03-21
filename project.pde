@@ -98,11 +98,7 @@ void drawData() { //<>//
 int firstFlightToDisplayIdx = 0;
 List<Flight> Data = new ArrayList<Flight>();
 
-void setup() {
-  selectInput("Select a file to process:", "fileSelected");
-  PFont flightFont = loadFont("Arial-Black-14.vlw");
-  textFont(flightFont);
-}
+
 
 void settings() {
   size(SCREENX, SCREENY);
@@ -123,7 +119,4 @@ void fileSelected(File selection) {
   }
 }
 
-void draw() {
-  background(0);
-  drawData();
-}
+
