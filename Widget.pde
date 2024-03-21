@@ -70,17 +70,14 @@ void mousePressed() {
   case EVENT_AIRPORT:
     println("Airport filter selected!");
     currentScreen = airportScreen;
-   background(255);
     break;
   case EVENT_DATE:
     println("Date filter selected!");
     currentScreen = dateScreen;
-    background(255);
     break;
   case EVENT_FLIGHT:
     println("Flight filter selected!");
     currentScreen = flightScreen;
-    background(255);
     break;
   case EVENT_DATA:
     println("Data selected!");
@@ -89,7 +86,6 @@ void mousePressed() {
   case EVENT_RETURN:
     println("Return selected!");
     currentScreen = homeScreen;
-    background(255);
     break;
   }
 }
