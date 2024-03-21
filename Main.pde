@@ -1,5 +1,5 @@
 PFont stdFont;
-final int EVENT_AIRPORT=1;
+final int EVENT_ROUTE=1;
 final int EVENT_DATE=2;
 final int EVENT_FLIGHT=3;
 final int EVENT_HOME=4;
@@ -7,14 +7,14 @@ final int EVENT_DATA=5;
 final int EVENT_RETURN=6;
 final int EVENT_NULL=0;
 PImage planeImage, flagImage;
-Screen currentScreen, homeScreen, airportScreen, dateScreen, flightScreen, dataScreen;
+Screen currentScreen, homeScreen, routeScreen, dateScreen, flightScreen, dataScreen;
 
 void setup() {
   selectInput("Select a file to process:", "fileSelected");
   Widget filter1, filter2, filter3, data, returnButton;
   PFont flightFont = loadFont("Arial-Black-14.vlw");
   PFont stdFont = loadFont("GillSans-Bold-48.vlw");
-  filter1=new Widget(90, 450, 210, 40, "Airport", stdFont, EVENT_AIRPORT);
+  filter1=new Widget(90, 450, 210, 40, "Route", stdFont, EVENT_ROUTE);
   filter2=new Widget(345, 450, 210, 40, "Date", stdFont, EVENT_DATE);
   filter3=new Widget(600, 450, 210, 40, "Flight", stdFont, EVENT_FLIGHT);
   data=new Widget(840, 58, 50, 20, "Data", stdFont, EVENT_DATA);
@@ -23,7 +23,7 @@ void setup() {
   planeImage = loadImage("plane.jpg");
   flagImage = loadImage("usa.png");
   homeScreen = new Screen();
-  airportScreen = new Screen();
+  routeScreen = new Screen();
   dateScreen = new Screen();
   flightScreen = new Screen();
   dataScreen = new Screen();
@@ -31,7 +31,7 @@ void setup() {
   homeScreen.add(filter2);
   homeScreen.add(filter3);
   homeScreen.add(data);
-  airportScreen.add(returnButton);
+  routeScreen.add(returnButton);
   dateScreen.add(returnButton);
   flightScreen.add(returnButton);
   dataScreen.add(returnButton);
@@ -40,7 +40,7 @@ void setup() {
 void draw() {
   if (currentScreen == homeScreen) {
     image(planeImage, 0, 0, 900, 600);
-    
+
     fill(255);
     textSize(18);
     textAlign(RIGHT, TOP);
@@ -60,6 +60,12 @@ void draw() {
     popMatrix();
   } else if (currentScreen == dataScreen) {
     drawData();
+  } else if (currentScreen == routeScreen) {
+    background(255);
+  } else if (currentScreen == dateScreen) {
+    background(255);
+  } else if (currentScreen == flightScreen) {
+    background(255);
   }
   currentScreen.draw();
 }
