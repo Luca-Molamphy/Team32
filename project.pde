@@ -3,7 +3,7 @@ import java.util.*;
 final int SCREENX = 900;
 final int SCREENY = 480;
 
-final int FLIGHTS_ON_THE_SCREEN = 20;
+final int FLIGHTS_ON_THE_SCREEN = 28;
 
 String[] splitStr(String src, char delim) {
   String[] res = new String[18];
@@ -61,16 +61,16 @@ class Flight {
     distance = data[17];
   }
   String toString() {
-   return flightDate + "," + IATACodeMarketingAirline + "," + flightNumberMarketingAirline + "," +
-            origin + "," + originCityName + "," + originState + "," + originWac + "," + dest + "," + destCityName + "," +
-            destState + "," + destWac + "," + CRSDepTime + "," + depTime + "," + CRSArrTime + "," + arrTime + "," +
-            cancelled + "," + diverted + "," + distance;
+    return flightDate + "," + IATACodeMarketingAirline + "," + flightNumberMarketingAirline + "," +
+      origin + "," + originCityName + "," + originState + "," + originWac + "," + dest + "," + destCityName + "," +
+      destState + "," + destWac + "," + CRSDepTime + "," + depTime + "," + CRSArrTime + "," + arrTime + "," +
+      cancelled + "," + diverted + "," + distance;
   }
   void print() {
     println(flightDate + "," + IATACodeMarketingAirline + "," + flightNumberMarketingAirline + "," +
-            origin + "," + originCityName + "," + originState + "," + originWac + "," + dest + "," + destCityName + "," +
-            destState + "," + destWac + "," + CRSDepTime + "," + depTime + "," + CRSArrTime + "," + arrTime + "," +
-            cancelled + "," + diverted + "," + distance);
+      origin + "," + originCityName + "," + originState + "," + originWac + "," + dest + "," + destCityName + "," +
+      destState + "," + destWac + "," + CRSDepTime + "," + depTime + "," + CRSArrTime + "," + arrTime + "," +
+      cancelled + "," + diverted + "," + distance);
   }
 }
 
@@ -85,25 +85,21 @@ void mouseWheel(MouseEvent event) {
   }
 }
 
-void drawData() { //<>//
-  int curX = 10; 
+void drawData() {
+  int curX = 10;
   int curY = 14;
-textAlign(LEFT, TOP);
+  textAlign(LEFT, TOP);
   for (int i = firstFlightToDisplayIdx; i < min(firstFlightToDisplayIdx + FLIGHTS_ON_THE_SCREEN, Data.size()); ++i) {
     fill(255);
+    textSize(13);
     text(Data.get(i).toString(), curX, curY);
-    curY += 24;
+    curY += 23;
   }
 }
 
 int firstFlightToDisplayIdx = 0;
 List<Flight> Data = new ArrayList<Flight>();
 
-
-
-void settings() {
-  size(SCREENX, SCREENY);
-}
 
 void fileSelected(File selection) {
   if (selection == null) {
