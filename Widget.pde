@@ -67,9 +67,9 @@ void mouseMoved() {
 }
 void mousePressed() {
   switch(currentScreen.getEvent(mouseX, mouseY)) {
-  case EVENT_AIRPORT:
+  case EVENT_ROUTE:
     println("Airport filter selected!");
-    currentScreen = airportScreen;
+    currentScreen = routeScreen;
     break;
   case EVENT_DATE:
     println("Date filter selected!");
