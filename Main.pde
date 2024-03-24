@@ -6,6 +6,7 @@ final int EVENT_HOME=4;
 final int EVENT_DATA=5;
 final int EVENT_RETURN=6;
 final int EVENT_NULL=0;
+int flightsLoaded;
 PImage planeImage, flagImage;
 Screen currentScreen, homeScreen, routeScreen, dateScreen, flightScreen, dataScreen;
 
@@ -59,6 +60,7 @@ void draw() {
     text("TRACKER", 615, 365);
     popMatrix();
   } else if (currentScreen == dataScreen) {
+    background(0);
     drawData();
   } else if (currentScreen == routeScreen) {
     background(255);
