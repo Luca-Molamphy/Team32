@@ -12,6 +12,13 @@ class Filter
     List<Flight> s = data.stream().filter(abc -> abc.dest.equals(airport)).collect(Collectors.toList());
     return s;
   }
+  public List filterByDestAirportDate(List<Flight> data, String airport, String date)
+  {
+    List<Flight> s = data.stream().filter(abc -> abc.dest.equals(airport)).collect(Collectors.toList());
+    return s;
+    List b = s.stream().filter(abc -> abc.flightDate.equals(date)).collect(Collectors.toList());
+    return b;
+  }
   public List filterByDate(List<Flight> data, String date)
   {
     List s = data.stream().filter(abc -> abc.flightDate.equals(date)).collect(Collectors.toList());
