@@ -1,11 +1,16 @@
 class Filter
 {
-  public List filterByAirport(List<Flight> data, String airport)
+  public List filterByOriginAirport(List<Flight> data, String airport)
   {
     List<Flight> s = data.stream().filter(abc -> abc.origin.equals(airport)).collect(Collectors.toList());
     return s;
     //List b = s.stream().filter(abc -> abc.flightDate.equals("01/01/2022 00:00")).collect(Collectors.toList());
     //return b;
+  }
+  public List filterByDestAirport(List<Flight> data, String airport)
+  {
+    List<Flight> s = data.stream().filter(abc -> abc.dest.equals(airport)).collect(Collectors.toList());
+    return s;
   }
   public List filterByDate(List<Flight> data, String date)
   {
