@@ -108,12 +108,11 @@ void fileSelected(File selection) {
     println("User selected " + selection.getAbsolutePath());
     String[] lines = loadStrings(selection);
     for (int i = 1; i < lines.length; i++) {
-      Data.add(new Flight(splitStr(lines[i], ',')));
-    }
-    for (int i = 0; i < Data.size(); i++) {
-      Data.get(i).print();
+      Flight flight = new Flight(splitStr(lines[i], ','));
+      Data.add(flight);
+      flightDensity.put(flight.origin, flightDensity.getOrDefault(flight.origin, 0) + 1);
+      flightDensity.put(flight.dest, flightDensity.getOrDefault(flight.dest, 0) + 1);
     }
   }
+  loadAirportData("iatalatlong.csv");
 }
-
-
