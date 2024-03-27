@@ -29,7 +29,7 @@ class Widget {
     rect(x, y, width, height);
 
 
-    fill(label.equalsIgnoreCase("data") ? color(255,255,0) : labelColor);
+    fill(label.equalsIgnoreCase("data") ? color(255, 255, 0) : labelColor);
     textFont(widgetFont);
     textAlign(CENTER);
     textSize(label.equalsIgnoreCase("data") ? 15 : 18);
@@ -86,6 +86,10 @@ void mousePressed() {
   case EVENT_RETURN:
     println("Return selected!");
     currentScreen = homeScreen;
+    break;
+  case EVENT_HEAT:
+    println("Heat Map selected!");
+    currentScreen = heatScreen;
     break;
   }
 }
