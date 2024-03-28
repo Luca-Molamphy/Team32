@@ -21,7 +21,7 @@ void drawHeatmap() {
         float hue = map(density, 0, sqrt(maxDensity), 120, 0);
         noStroke();
         fill(hue, 255, 255);
-        ellipse(screen.x, screen.y, 5 + ((density/maxDensity)*1000), 5 + ((density/maxDensity)*1000));
+        ellipse(screen.x, screen.y, 10, 10);
       }
     }
     colorMode(RGB, 255);
