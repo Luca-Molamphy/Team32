@@ -1,44 +1,41 @@
-// HomeScreen class
-class HomeScreen {
-  int x, y, width, height;
-  String label;
-  int event;
-  color widgetColor, labelColor, strokeColor;
-  PFont widgetFont;
-
-  // Constructor
-  HomeScreen(int x, int y, int width, int height, String label,
-  color widgetColor, PFont widgetFont, int event){
-    this.x=x; this.y=y; this.width = width; this.height= height;
-    this.label=label; this.event=event;
-    this.widgetColor=widgetColor; this.widgetFont=widgetFont;
-    labelColor = color(255); // White label color for all widgets
-    strokeColor= color(0);
+class HomeScreen extends Screen {
+  PImage planeImage, flagImage;
+  
+  HomeScreen() {
+    planeImage = loadImage("plane.jpg");
+    flagImage = loadImage("usa.png");
+    add(new Widget(90, 450, 150, 40, "Route", stdFont, EVENT_ROUTE));
+    add(new Widget(280, 450, 150, 40, "Date", stdFont, EVENT_DATE));
+    add(new Widget(470, 450, 150, 40, "Flight", stdFont, EVENT_FLIGHT));
+    add(new Widget(660, 450, 150, 40, "Heat Map", stdFont, EVENT_HEAT));
+    add(new Widget(840, 58, 50, 20, "Data", stdFont, EVENT_DATA));
   }
 
-  // Draw the widget
-  void draw(boolean isHovered){
-    fill(widgetColor);
-    stroke(strokeColor);
-    strokeWeight(2.5);
-    if (isHovered) {
-      rect(x - 5, y - 5, width + 10, height + 10, 10); // Rounded corners for hovered widget
-    } else {
-      rect(x, y, width, height, 10); // Rounded corners for regular widget
-    }
-    fill(labelColor);
-    textFont(widgetFont);
-    textAlign(CENTER, CENTER);
-    text(label, x + width / 2, y + height / 2);
-  }
-
-  // Check if the widget is clicked
-  boolean isClicked(int mX, int mY){
-    return (mX > x && mX < x + width && mY > y && mY < y + height);
+  void draw() {
+    image(planeImage, 0, 0, 900, 600);
+    fill(255);
+    textSize(18);
+    textAlign(RIGHT, TOP);
+    text("Flights loaded", 900 - 10, 10);
+    text(": " + getDataSize(), 900 - 10, 34);
+    fill(178, 34, 52);
+    text("Filter by:", 172, 424);
+    fill(255);
+    pushMatrix();
+    rotate(radians(-3));
+    textSize(48);
+    textAlign(CENTER, BOTTOM);
+    text("  FLIGHT", 190, 300);
+    image(flagImage, 52, 266, 50, 34);
+    rotate(radians(-9));
+    text("TRACKER", 615, 365);
+    popMatrix();
+    
+    super.draw();
   }
 }
 
-PFont stdFont;
+/*
 HomeScreen flightWidget, dateWidget, airportWidget;
 color bgColor;
 
@@ -95,3 +92,4 @@ void mouseClicked(){
     // Implement action for airport widget click
   }
 }
+*/
