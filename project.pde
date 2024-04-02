@@ -1,10 +1,5 @@
 import java.util.*;
 
-final int SCREENX = 900;
-final int SCREENY = 480;
-
-final int FLIGHTS_ON_THE_SCREEN = 28;
-
 String[] splitStr(String src, char delim) {
   String[] res = new String[18];
   Arrays.fill(res, "");
@@ -21,7 +16,7 @@ String[] splitStr(String src, char delim) {
 }
 
 class Flight {
-  String flightDate;
+  Date flightDate;
   String IATACodeMarketingAirline;
   String flightNumberMarketingAirline;
   String origin;
@@ -41,7 +36,7 @@ class Flight {
   String distance;
 
   Flight(String[] data) {
-    flightDate = data[0];
+    flightDate = parseDate(data[0]);
     IATACodeMarketingAirline = data[1];
     flightNumberMarketingAirline = data[2];
     origin = data[3];
@@ -61,58 +56,12 @@ class Flight {
     distance = data[17];
   }
   String toString() {
-    return flightDate + "," + IATACodeMarketingAirline + "," + flightNumberMarketingAirline + "," +
+    return flightDate.toString() + "," + IATACodeMarketingAirline + "," + flightNumberMarketingAirline + "," +
       origin + "," + originCityName + "," + originState + "," + originWac + "," + dest + "," + destCityName + "," +
       destState + "," + destWac + "," + CRSDepTime + "," + depTime + "," + CRSArrTime + "," + arrTime + "," +
       cancelled + "," + diverted + "," + distance;
   }
   void print() {
-    println(flightDate + "," + IATACodeMarketingAirline + "," + flightNumberMarketingAirline + "," +
-      origin + "," + originCityName + "," + originState + "," + originWac + "," + dest + "," + destCityName + "," +
-      destState + "," + destWac + "," + CRSDepTime + "," + depTime + "," + CRSArrTime + "," + arrTime + "," +
-      cancelled + "," + diverted + "," + distance);
+    println(toString());
   }
-}
-
-void mouseWheel(MouseEvent event) {
-  int scrolls = event.getCount();
-  firstFlightToDisplayIdx += scrolls;
-  if (firstFlightToDisplayIdx > Data.size() - FLIGHTS_ON_THE_SCREEN) {
-    firstFlightToDisplayIdx = Data.size() - FLIGHTS_ON_THE_SCREEN;
-  }
-  if (firstFlightToDisplayIdx < 0) {
-    firstFlightToDisplayIdx = 0;
-  }
-}
-
-void drawData() {
-  int curX = 10;
-  int curY = 14;
-  textAlign(LEFT, TOP);
-  for (int i = firstFlightToDisplayIdx; i < min(firstFlightToDisplayIdx + FLIGHTS_ON_THE_SCREEN, Data.size()); ++i) {
-    fill(255);
-    textSize(13);
-    text(Data.get(i).toString(), curX, curY);
-    curY += 23;
-  }
-}
-
-int firstFlightToDisplayIdx = 0;
-List<Flight> Data = new ArrayList<Flight>();
-
-
-void fileSelected(File selection) {
-  if (selection == null) {
-    println("Window was closed or the user hit cancel.");
-  } else {
-    println("User selected " + selection.getAbsolutePath());
-    String[] lines = loadStrings(selection);
-    for (int i = 1; i < lines.length; i++) {
-      Flight flight = new Flight(splitStr(lines[i], ','));
-      Data.add(flight);
-      flightDensity.put(flight.origin, flightDensity.getOrDefault(flight.origin, 0) + 1);
-      flightDensity.put(flight.dest, flightDensity.getOrDefault(flight.dest, 0) + 1);
-    }
-  }
-  loadAirportData("iatalatlong.csv");
 }

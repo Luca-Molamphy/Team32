@@ -1,17 +1,53 @@
 import java.util.*;
 
-final int SCREENX = 46;
-final int SCREENY = 46;
+final int CELL_SIZE = 49;
 
-final int CELL_SIZE = 41;
+class Date {
+  int year;
+  int month;
+  int day;
+  Date(int day, int month, int year) {
+    this.year = year;
+    this.month = month;
+    this.day = day;
+  }
+  int compare(Date other) {
+    if (year < other.year) {
+      return -1;
+    } else if (year > other.year) {
+      return +1;
+    }
+    if (month < other.month) {
+      return -1;
+    } else if (month > other.month) {
+      return +1;
+    }
+    if (day < other.day) {
+      return -1;
+    } else if (day > other.day) {
+      return +1;
+    }
+    return 0;
+  }
+  String toString() {
+    return day + "/" + month + "/" + year;
+  }
+}
 
-class calendarCell {
+Date parseDate(String str) {
+  int day = Integer.parseInt(str.substring(0, 2));
+  int month = Integer.parseInt(str.substring(3, 5));
+  int year = Integer.parseInt(str.substring(6, 10));
+  return new Date(day, month, year);
+}
+
+class CalendarCell {
   int rowNumber;
   int columnNumber;
   int value;
   boolean highlighted = false;
 
-  calendarCell(int rowNumber_, int columnNumber_, int value_) {
+  CalendarCell(int rowNumber_, int columnNumber_, int value_) {
     rowNumber = rowNumber_;
     columnNumber = columnNumber_;
     value = value_;
@@ -47,6 +83,7 @@ class Calendar {
   int year;
   int month;
   int startDayOfMonth;
+  Date selectedDate;
   int cellToHighlightX = -CELL_SIZE;
   int cellToHighlightY = -CELL_SIZE;
   String[] months = { "", "January", "February", "March", "April", "May", "June",
@@ -54,7 +91,7 @@ class Calendar {
   String[] daysOfTheWeek = { "", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su" };
   int[] days = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
   int[] monthKey = { -1, 1, 4, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6 };
-  List<calendarCell> cellList = new ArrayList<calendarCell>();
+  List<CalendarCell> cellList = new ArrayList<CalendarCell>();
 
   Calendar(int year_, int month_) {
     year = year_;
@@ -82,9 +119,10 @@ class Calendar {
         ++row;
         column = 1;
       }
-      cellList.add(new calendarCell(row, column++, i));
+      cellList.add(new CalendarCell(row, column++, i));
     }
   }
+  
   void nextYear() {
     year = (year + 1 > 2099? 2000: year + 1);
     setCalendar();
@@ -100,6 +138,10 @@ class Calendar {
   void prevMonth() {
     month = (month - 1 < 1? 12: month - 1);
     setCalendar();
+  }
+
+  Date getDate() {
+    return selectedDate;
   }
 
   void highlight(int mX, int mY) {
@@ -124,7 +166,7 @@ class Calendar {
     }
   }
 
-  void getEvent(int mX, int mY) {
+  int getEvent(int mX, int mY) {
     if ((mX > CELL_SIZE) && mX < (CELL_SIZE * 2) && (mY > CELL_SIZE) && mY < (CELL_SIZE * 2)) {
       prevYear();
     }
@@ -139,9 +181,12 @@ class Calendar {
     }
     for (int i = 0; i < cellList.size(); ++i) {
       if (cellList.get(i).getEvent(mX, mY)) {
+        selectedDate = new Date(cellList.get(i).value, month, year);
         println(cellList.get(i).value);
+        return EVENT_DATE_SELECTED;
       }
     }
+    return EVENT_NULL;
   }
   
   void draw() {
@@ -164,29 +209,4 @@ class Calendar {
       cellList.get(i).draw();
     }
   }
-}
-
-void mouseMoved() {
-  calendar.highlight(mouseX, mouseY);
-}
-
-void mousePressed() {
-  calendar.getEvent(mouseX, mouseY);
-}
-
-Calendar calendar;
-
-void setup() {
-  PFont calendarFont = loadFont("MicrosoftJhengHeiLight-18.vlw");
-  textFont(calendarFont);
-  textAlign(CENTER, CENTER);
-  calendar = new Calendar(2024, 1);
-}
-
-void settings() {
-  size(CELL_SIZE * 9, CELL_SIZE * 13);
-}
-
-void draw() {
-  calendar.draw();
 }
