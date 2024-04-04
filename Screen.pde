@@ -9,6 +9,13 @@ class Screen {
     screenWidgets.add(w);
   }
 
+  void refresh() {
+    for (int i = 0; i < screenWidgets.size(); i++) {
+      Widget aWidget = (Widget) screenWidgets.get(i);
+      aWidget.mouseNotOver();
+    }
+  }
+
   void draw() {
     for (int i = 0; i<screenWidgets.size(); i++) {
       Widget aWidget = (Widget)screenWidgets.get(i);
@@ -41,6 +48,8 @@ class Screen {
       }
     }
     return EVENT_NULL;
+  }
+  void filter() {
   }
   void mouseWheel(MouseEvent event) {
   }

@@ -1,4 +1,6 @@
-final int EVENT_ROUTE=1; //<>//
+import java.util.*; //<>//
+
+final int EVENT_ROUTE=1;
 final int EVENT_DATE=2;
 final int EVENT_FLIGHT=3;
 final int EVENT_HOME=4;
@@ -8,6 +10,11 @@ final int EVENT_HEAT=7;
 final int EVENT_SHOW_DATA = 8;
 final int EVENT_EXTRACT_TO_CSV = 9;
 final int EVENT_DATE_SELECTED = 10;
+final int EVENT_ORDER_BY_DATE = 11;
+final int EVENT_ORDER_BY_ORIGIN = 12;
+final int EVENT_ORDER_BY_DESTINATION = 13;
+final int EVENT_ORDER_BY_DISTANCE = 14;
+final int EVENT_ORDERING = 15;
 final int EVENT_NULL=0;
 
 PFont stdFont;
@@ -17,6 +24,7 @@ DataScreen dataScreen;
 HeatScreen heatScreen;
 Screen routeScreen, flightScreen;
 CalendarScreen dateScreen;
+OrderingScreen orderingScreen;
 
 void setup() {
   stdFont = loadFont("GillSans-Bold-48.vlw"); //<>//
@@ -28,6 +36,7 @@ void setup() {
   flightScreen = new Screen();
   dataScreen = new DataScreen();
   heatScreen = new HeatScreen();
+  orderingScreen = new OrderingScreen();
 
   currentScreen = homeScreen;
   previousScreen = currentScreen;
@@ -55,6 +64,10 @@ void inputSelected(File selection) {
   }
   heatScreen.loadAirportData("iatalatlong.csv");
   dataScreen.setData(inputData);
+  FlightOrigin[] origins = prevailingOrigins(5);
+  for (int i = 0; i < 5; ++i) {
+    println(origins[i].origin + ": " + origins[i].count);
+  }
 }
 
 void outputSelected(File selection) {
@@ -83,39 +96,49 @@ void mousePressed() {
   switch (event) {
   case EVENT_ROUTE:
     println("Airport filter selected!");
-    currentScreen = routeScreen;
+    changeScreen(routeScreen);
     break;
   case EVENT_DATE:
     println("Date filter selected!");
-    currentScreen = dateScreen;
+    changeScreen(dateScreen);
     break;
   case EVENT_FLIGHT:
     println("Flight filter selected!");
-    currentScreen = flightScreen;
+    changeScreen(flightScreen);
     break;
   case EVENT_DATA:
     println("Data selected!");
-    currentScreen = dataScreen;
+    changeScreen(dataScreen);
     break;
   case EVENT_RETURN:
     println("Return selected!");
-    currentScreen = previousScreen;
+    changeScreen(previousScreen);
     previousScreen = homeScreen;
     break;
   case EVENT_HEAT:
     println("Heat Map selected!");
-    currentScreen = heatScreen;
+    changeScreen(heatScreen);
+    break;
+  case EVENT_ORDERING:
+    println("Heat Ordering selected!");
+    changeScreen(orderingScreen);
     break;
   case EVENT_SHOW_DATA:
     println("Show data selected!");
-    dateScreen.filter();
+    currentScreen.filter();
     previousScreen = currentScreen;
-    currentScreen = dataScreen;
+    changeScreen(dataScreen);
     break;
   case EVENT_EXTRACT_TO_CSV:
+    currentScreen.filter();
     selectOutput("Save to CSV", "outputSelected");
     break;
   }
+}
+
+void changeScreen(Screen screen) {
+  currentScreen = screen;
+  currentScreen.refresh();
 }
 
 void mouseWheel(MouseEvent event) {

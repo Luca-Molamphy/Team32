@@ -1,11 +1,16 @@
-import java.util.*;
 
 final int CELL_SIZE = 49;
+
+int daysInMonth(int month, int year) {
+  Calendar calendar = new Calendar(month, year);
+  return calendar.days[month];
+ }
 
 class Date {
   int year;
   int month;
   int day;
+
   Date(int day, int month, int year) {
     this.year = year;
     this.month = month;
@@ -29,8 +34,43 @@ class Date {
     }
     return 0;
   }
+  void increaseMonth() {
+    if (month == 12) {
+      ++year;
+      month = 1;
+      day -= 31;
+    } else {
+      day -= daysInMonth(month, year);
+      ++month;
+    }
+  }
+  void decreaseMonth() {
+    if (month == 1) {
+      --year;
+      month = 12;
+      day += 31;
+    } else {
+      day += daysInMonth(month, year);
+      --month;
+    }
+  }
+  Date subtract(Date other) {
+    Date ans = new Date(day - other.day, month, year);
+    if (ans.day <= 0) {
+      ans.decreaseMonth();
+    }
+    if (ans.day <= 0) {
+      ans.decreaseMonth();
+    }
+    ans.month -= other.month;
+    if (ans.month <= 0) {
+      --ans.year;
+    }
+    ans.year -= other.year;
+    return ans;
+  }
   String toString() {
-    return day + "/" + month + "/" + year;
+    return (day < 10? "0": "") + day + "/" + (month < 10? "0": "") + month + "/" + year;
   }
 }
 
@@ -93,13 +133,14 @@ class Calendar {
   int[] monthKey = { -1, 1, 4, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6 };
   List<CalendarCell> cellList = new ArrayList<CalendarCell>();
 
-  Calendar(int year_, int month_) {
+  Calendar(int month_, int year_) {
     year = year_;
     month = month_;
     setCalendar();
   }
+  
   void setCalendar() {
-    if ((((year % 4 == 0) && (year % 100 != 0)) ||  (Y % 400 == 0))) {
+    if ((((year % 4 == 0) && (year % 100 != 0)) ||  (year % 400 == 0))) {
       days[2] = 29;
       monthKey[1] = 0;
       monthKey[2] = 3;
@@ -193,7 +234,9 @@ class Calendar {
     background(255);
     fill(255);
     stroke(0);
-    rect(cellToHighlightX, cellToHighlightY, CELL_SIZE, CELL_SIZE);
+    if (cellToHighlightX > 0) {
+      rect(cellToHighlightX, cellToHighlightY, CELL_SIZE, CELL_SIZE);
+    }
     textAlign(CENTER, CENTER);
     fill(0);
     text("<", CELL_SIZE + CELL_SIZE / 2 + 1, CELL_SIZE  + CELL_SIZE / 2 + 1);

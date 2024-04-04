@@ -6,25 +6,20 @@ class CompareFlightDate implements Comparator<Flight> {
 
 
 class CalendarScreen extends Screen {
-  Calendar calendar = new Calendar(2024, 1);
+  Calendar calendar = new Calendar(1, 2024);
   Date fromDate, toDate;
  
   CalendarScreen() {
     fromDate = new Date(1, 1, 1900);
     toDate = new Date(1, 1, 1900);
-    add(new Widget(470, CELL_SIZE * 5 + CELL_SIZE / 2 + 1, 160, 80, "Show Data", stdFont, EVENT_SHOW_DATA));
-    add(new Widget(470, CELL_SIZE * 5 + + CELL_SIZE / 2 + 1 + 120, 160, 80, "Extract to CSV", stdFont, EVENT_EXTRACT_TO_CSV));
+    add(new Widget(520, CELL_SIZE * 5 + CELL_SIZE / 2 + 1, 160, 80, "Show Data", stdFont, EVENT_SHOW_DATA));
+    add(new Widget(520, CELL_SIZE * 5 + + CELL_SIZE / 2 + 1 + 120, 160, 80, "Extract to CSV", stdFont, EVENT_EXTRACT_TO_CSV));
     add(new Widget(800, 58, 80, 40, "Return", stdFont, EVENT_RETURN));
   }
 
   void updateDate(Date date) {
     fromDate = toDate;
     toDate = date;
-    /*if (toDate.compare(fromDate) < 0) {
-      Date tmp = fromDate;
-      fromDate = toDate;
-      toDate = tmp;
-    }*/
   }
   void filter() {
     filteredData.clear();
@@ -42,11 +37,11 @@ class CalendarScreen extends Screen {
     calendar.draw();
     textSize(30);
     fill(178, 34, 52);
-    text("CHOOSE DATE RANGE", 450, 40);
+    text("CHOOSE DATE RANGE", 450, 30);
     fill(128, 0, 128);
     textSize(18);
-    text("From: " + fromDate.toString(), 550, CELL_SIZE  + CELL_SIZE / 2 + 1);
-    text("To: " + toDate.toString(), 550, CELL_SIZE * 3 + CELL_SIZE / 2 + 1);
+    text("From: " + fromDate.toString(), 600, CELL_SIZE  + CELL_SIZE / 2 + 1);
+    text("To: " + toDate.toString(), 600, CELL_SIZE * 3 + CELL_SIZE / 2 + 1);
     super.draw();
   }
 

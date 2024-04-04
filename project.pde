@@ -1,4 +1,3 @@
-import java.util.*;
 
 String[] splitStr(String src, char delim) {
   String[] res = new String[18];
@@ -33,7 +32,7 @@ class Flight {
   String arrTime;
   String cancelled;
   String diverted;
-  String distance;
+  int distance;
 
   Flight(String[] data) {
     flightDate = parseDate(data[0]);
@@ -53,7 +52,7 @@ class Flight {
     arrTime = data[14];
     cancelled = data[15];
     diverted = data[16];
-    distance = data[17];
+    distance = Integer.parseInt(data[17]);
   }
   String toString() {
     return flightDate.toString() + "," + IATACodeMarketingAirline + "," + flightNumberMarketingAirline + "," +
