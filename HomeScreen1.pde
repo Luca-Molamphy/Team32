@@ -13,7 +13,7 @@ class HomeScreen extends Screen {
     add(new Widget(90, 510, 150, 40, "Ordering", stdFont, EVENT_ORDERING));
   }
 
-// Draw function which draws background image, displays flights loaded, and draws the "Flight Tracker" project title in stylish manner
+// Draw function which draws background image, displays flights loaded, and draws the "Flight Tracker" project title in a stylish manner
   void draw() {
     image(planeImage, 0, 0, 900, 600);
     fill(255);
