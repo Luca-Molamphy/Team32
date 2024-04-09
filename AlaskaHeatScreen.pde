@@ -6,18 +6,21 @@ class AlaskaHeatScreen extends Screen {
   int max;
   Set<String> alaskaIATACodes = Set.of("ADQ", "ANC", "BET", "BRW", "CDV", "FAI", "JNU", "KTN", "PSG", "SCC", "SIT", "WRG", "YAK");
 
-  AlaskaHeatScreen() {
+// Constructor which initialises the necessary images and adds widgets for screen navigation  
+AlaskaHeatScreen() {
     alaskaImage = loadImage("alaska.jpg");
     indexImage = loadImage("index.png");
     add(new Widget(800, 58, 80, 40, "Return", stdFont, EVENT_RETURN));
     add(new Widget(765, 525, 65, 30, "Back", stdFont, EVENT_HEAT));
   }
 
+// Adds a flight's origin and destination to the flight density HashMap
   void addFlight(Flight flight) {
     flightDensity.put(flight.origin, flightDensity.getOrDefault(flight.origin, 0) + 1);
     flightDensity.put(flight.dest, flightDensity.getOrDefault(flight.dest, 0) + 1);
   }
 
+// Loads airport data from Alaskan flights and puts data in a HashMap
   void loadAirportData(String file) {
     Set<String> flightIATACodes = new HashSet<String>();
     for (Flight flight : inputData) {
@@ -36,6 +39,7 @@ class AlaskaHeatScreen extends Screen {
     }
   }
 
+// Draw function which clears the background, draws the map and calls the function to draw the heatmap
   void draw() {
     background(255);
     image(alaskaImage, 50, 32, 800, 381);
@@ -63,6 +67,7 @@ class AlaskaHeatScreen extends Screen {
     super.draw();
   }
 
+// Draws the alaska heatmap using the data from the flight density and airport locations HashMaps
   void drawAlaskaHeatMap() {
     alaskaScreen.loadAirportData("iatalatlong.csv");
     try {
@@ -90,7 +95,7 @@ class AlaskaHeatScreen extends Screen {
     }
   }
 
-
+// Converts latitude and longitude co-ordinates to screen co-ordinates so the data can be visualised
   PVector geoToScreen(float lat, float lon) {
     float x = map(lon, -161.838, -131.714, 0, alaskaImage.width-130);
     float y = map(lat, 71.2854, 55.3556, 0, alaskaImage.height);
