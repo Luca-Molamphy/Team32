@@ -95,7 +95,7 @@ AlaskaHeatScreen() {
     }
   }
 
-// Converts latitude and longitude co-ordinates to screen co-ordinates so the data can be visualised
+// Converts latitude and longitude co-ordinates to screen co-ordinates to fit the Alaska map so the data can be visualised
   PVector geoToScreen(float lat, float lon) {
     float x = map(lon, -161.838, -131.714, 0, alaskaImage.width-130);
     float y = map(lat, 71.2854, 55.3556, 0, alaskaImage.height);
