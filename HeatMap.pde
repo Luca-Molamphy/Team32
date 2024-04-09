@@ -5,6 +5,7 @@ class HeatScreen extends Screen {
   Set<String> excludedIATACodes = Set.of("ADQ", "ANC", "BET", "BRW", "CDV", "FAI", "JNU", "KTN", "PSG", "SCC", "SIT", "WRG", "YAK");
   int maxDensity ;
 
+// Constructor which initialises the heat map with the images used and adds widgets for navigation between screens
   HeatScreen() {
     usaMap = loadImage("americaMap.jpg");
     indexImage = loadImage("index.png");
@@ -12,11 +13,13 @@ class HeatScreen extends Screen {
     add(new Widget(50, 30, 70, 30, "Alaska", stdFont, EVENT_ALASKA));
   }
 
+// Adds the origin and destination of a flight to the flight density HashMap of the airport
   void addFlight(Flight flight) {
       flightDensity.put(flight.origin, flightDensity.getOrDefault(flight.origin, 0) + 1);
       flightDensity.put(flight.dest, flightDensity.getOrDefault(flight.dest, 0) + 1);
   }
 
+// Draws heatmap on the screen using the data from the flight density and airport location HashMaps
   void drawHeatmap() {
     try {
       for (Integer density : flightDensity.values()) {
@@ -42,6 +45,8 @@ class HeatScreen extends Screen {
       System.out.print(e);
     }
   }
+
+// Draw function which sets the background, draws the map and calls the function to draw the heatmap
   void draw() {
     background(255);
     image(usaMap, 20, 65, 770, 435.9);
@@ -69,6 +74,7 @@ class HeatScreen extends Screen {
     super.draw();
   }
 
+// Loads airport data and puts data of flights excluding Alaskan airports into a HashMap
   void loadAirportData(String file) {
     Set<String> flightIATACodes = new HashSet<String>();
     for (Flight flight : inputData) {
@@ -86,7 +92,8 @@ class HeatScreen extends Screen {
       }
     }
   }
-  
+
+// Converts latitude and longitude co-ordinates to screen co-ordinates the fit the USA map for data visualisation
   PVector geoToScreen(float lat, float lon) {
     float x = map(lon, -125, -66, 0, usaMap.width);
     float y = map(lat, 49, 24, 0, usaMap.height-18);
