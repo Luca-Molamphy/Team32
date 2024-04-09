@@ -1,6 +1,7 @@
 class HomeScreen extends Screen {
   PImage planeImage, flagImage;
-  
+
+// Constructor which initialises the necessary images and adds widgets to enable screen navigation
   HomeScreen() {
     planeImage = loadImage("plane.jpg");
     flagImage = loadImage("usa.png");
@@ -12,6 +13,7 @@ class HomeScreen extends Screen {
     add(new Widget(90, 510, 150, 40, "Ordering", stdFont, EVENT_ORDERING));
   }
 
+// Draw function which draws background image, displays flights loaded, and draws the "Flight Tracker" project title in stylish manner
   void draw() {
     image(planeImage, 0, 0, 900, 600);
     fill(255);
