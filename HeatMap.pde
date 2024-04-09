@@ -3,12 +3,13 @@ class HeatScreen extends Screen {
   HashMap<String, Integer> flightDensity = new HashMap<String, Integer>();
   HashMap<String, PVector> airportLocations = new HashMap<String, PVector>();
   Set<String> excludedIATACodes = Set.of("ADQ", "ANC", "BET", "BRW", "CDV", "FAI", "JNU", "KTN", "PSG", "SCC", "SIT", "WRG", "YAK");
-  int maxDensity = 0;
+  int maxDensity ;
 
   HeatScreen() {
     usaMap = loadImage("americaMap.jpg");
     indexImage = loadImage("index.png");
     add(new Widget(800, 58, 80, 40, "Return", stdFont, EVENT_RETURN));
+    add(new Widget(50, 30, 70, 30, "Alaska", stdFont, EVENT_ALASKA));
   }
 
   void addFlight(Flight flight) {
@@ -60,6 +61,11 @@ class HeatScreen extends Screen {
     textSize(18);
     text("Index:", 40, 430);
     text("Airports Displayed: ", 103, 560);
+    fill(0);
+    triangle(20, 10, 20, 20, 30, 10);
+    stroke(0);
+    strokeWeight(1);
+    line(20, 10, 40, 30);
     super.draw();
   }
 
