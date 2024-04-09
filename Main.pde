@@ -1,4 +1,4 @@
-import java.util.*; //<>//
+import java.util.*; //<>// //<>//
 
 final int EVENT_ROUTE=1;
 final int EVENT_DATE=2;
@@ -15,6 +15,7 @@ final int EVENT_ORDER_BY_ORIGIN = 12;
 final int EVENT_ORDER_BY_DESTINATION = 13;
 final int EVENT_ORDER_BY_DISTANCE = 14;
 final int EVENT_ORDERING = 15;
+final int EVENT_ALASKA = 16;
 final int EVENT_NULL=0;
 
 PFont stdFont;
@@ -25,9 +26,10 @@ HeatScreen heatScreen;
 Screen routeScreen, flightScreen;
 CalendarScreen dateScreen;
 OrderingScreen orderingScreen;
+AlaskaHeatScreen alaskaScreen;
 
 void setup() {
-  stdFont = loadFont("GillSans-Bold-48.vlw"); //<>//
+  stdFont = loadFont("GillSans-Bold-48.vlw");
   Widget returnButton =new Widget(800, 58, 80, 40, "Return", stdFont, EVENT_RETURN);
   size(900, 600);
   homeScreen = new HomeScreen();
@@ -37,10 +39,11 @@ void setup() {
   dataScreen = new DataScreen();
   heatScreen = new HeatScreen();
   orderingScreen = new OrderingScreen();
+  alaskaScreen = new AlaskaHeatScreen();
 
   currentScreen = homeScreen;
   previousScreen = currentScreen;
- 
+
   routeScreen.add(returnButton);
   flightScreen.add(returnButton);
 
@@ -60,6 +63,7 @@ void inputSelected(File selection) {
       Flight flight = new Flight(splitStr(lines[i], ','));
       inputData.add(flight);
       heatScreen.addFlight(flight);
+      alaskaScreen.addFlight(flight);
     }
   }
   heatScreen.loadAirportData("iatalatlong.csv");
@@ -85,7 +89,7 @@ void outputSelected(File selection) {
 
 void draw() {
   currentScreen.draw();
-} //<>//
+}
 
 void mouseMoved() {
   currentScreen.mouseMoved(mouseX, mouseY);
@@ -118,6 +122,10 @@ void mousePressed() {
   case EVENT_HEAT:
     println("Heat Map selected!");
     changeScreen(heatScreen);
+    break;
+  case EVENT_ALASKA:
+    println("Alaska heatmap selected!");
+    changeScreen(alaskaScreen);
     break;
   case EVENT_ORDERING:
     println("Heat Ordering selected!");
