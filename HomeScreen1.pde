@@ -26,10 +26,10 @@ class HomeScreen extends Screen {
     rotate(radians(-3));
     textSize(48);
     textAlign(CENTER, BOTTOM);
-    text("  FLIGHT", 190, 300);
+    text("  FLIGHT", 190, 310);
     image(flagImage, 52, 266, 50, 34);
     rotate(radians(-9));
-    text("TRACKER", 615, 365);
+    text("TRACKER", 615, 375);
     popMatrix();
     
     super.draw();
