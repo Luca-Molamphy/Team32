@@ -10,6 +10,8 @@ class HomeScreen extends Screen {
     add(new Widget(660, 450, 150, 40, "Heat Map", stdFont, EVENT_HEAT));
     add(new Widget(840, 58, 50, 20, "Data", stdFont, EVENT_DATA));
     add(new Widget(90, 510, 150, 40, "Ordering", stdFont, EVENT_ORDERING));
+    add(new Widget(280, 510, 150, 40, "Barchart", stdFont, EVENT_BARCHART));
+    add(new Widget(90, 510, 150, 40, "Ordering", stdFont, EVENT_ORDERING));
   }
 
   void draw() {

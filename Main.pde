@@ -15,6 +15,8 @@ final int EVENT_ORDER_BY_ORIGIN = 12;
 final int EVENT_ORDER_BY_DESTINATION = 13;
 final int EVENT_ORDER_BY_DISTANCE = 14;
 final int EVENT_ORDERING = 15;
+final int EVENT_BARCHART = 16;
+final int EVENT_BARCHART_DATE = 17;
 final int EVENT_NULL=0;
 
 PFont stdFont;
@@ -25,6 +27,8 @@ HeatScreen heatScreen;
 Screen routeScreen, flightScreen;
 CalendarScreen dateScreen;
 OrderingScreen orderingScreen;
+barGraphScreen barGraphScreen;
+DateBargraphScreen dateBargraphScreen;
 
 void setup() {
   stdFont = loadFont("GillSans-Bold-48.vlw"); //<>//
@@ -37,6 +41,9 @@ void setup() {
   dataScreen = new DataScreen();
   heatScreen = new HeatScreen();
   orderingScreen = new OrderingScreen();
+  barGraphScreen = new barGraphScreen();
+  dateBargraphScreen = new DateBargraphScreen();
+  
 
   currentScreen = homeScreen;
   previousScreen = currentScreen;
@@ -132,6 +139,13 @@ void mousePressed() {
   case EVENT_EXTRACT_TO_CSV:
     currentScreen.filter();
     selectOutput("Save to CSV", "outputSelected");
+    break;
+  case EVENT_BARCHART:
+    println("Barchart screen selected");
+    changeScreen(barGraphScreen);
+    break;
+   case EVENT_BARCHART_DATE:
+    changeScreen(dateBargraphScreen);
     break;
   }
 }
