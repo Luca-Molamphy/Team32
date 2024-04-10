@@ -1,3 +1,6 @@
+//
+// Screen object for displaying raw data
+//
 class DataScreen extends Screen {
   final int FLIGHTS_ON_THE_SCREEN = 28;
   PFont flightFont;

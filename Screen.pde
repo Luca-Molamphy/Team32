@@ -1,8 +1,10 @@
+// base class for all screens, defines common interface for drawing and user input
+// also handles buttons (widgets)
 class Screen {
   ArrayList screenWidgets;
  
   Screen() {
-    screenWidgets=new ArrayList();
+    screenWidgets = new ArrayList();
   }
 
   void add(Widget w) {
@@ -38,7 +40,10 @@ class Screen {
   int mousePressed(int mouseX, int mouseY) {
     return getEvent(mouseX, mouseY);
   }
-
+  
+  void mouseWheel(MouseEvent event) {
+  }
+  
   int getEvent(int mx, int my) {
     for (int i = 0; i < screenWidgets.size(); i++) {
       Widget aWidget = (Widget) screenWidgets.get(i);
@@ -49,8 +54,11 @@ class Screen {
     }
     return EVENT_NULL;
   }
-  void filter() {
+  
+  void keyTyped() {
   }
-  void mouseWheel(MouseEvent event) {
+
+  // is called to produce data subset according to screen criteria
+  void filter() {
   }
 }

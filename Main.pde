@@ -1,5 +1,6 @@
-import java.util.*; //<>// //<>//
+import java.util.*; //<>// //<>// //<>//
 
+// event constants
 final int EVENT_ROUTE=1;
 final int EVENT_DATE=2;
 final int EVENT_FLIGHT=3;
@@ -16,48 +17,52 @@ final int EVENT_ORDER_BY_DESTINATION = 13;
 final int EVENT_ORDER_BY_DISTANCE = 14;
 final int EVENT_ORDERING = 15;
 final int EVENT_ALASKA = 16;
+final int EVENT_BAR_CHART = 17;
 final int EVENT_NULL=0;
 
 PFont stdFont;
+
+// screen declarations
 Screen currentScreen, previousScreen;
 HomeScreen homeScreen;
 DataScreen dataScreen;
 HeatScreen heatScreen;
-Screen routeScreen, flightScreen;
 CalendarScreen dateScreen;
 OrderingScreen orderingScreen;
 AlaskaHeatScreen alaskaScreen;
+RouteScreen routeScreen;
+BarScreen barScreen;
 
+// screen initialization and input selection
 void setup() {
   stdFont = loadFont("GillSans-Bold-48.vlw");
-  Widget returnButton =new Widget(800, 58, 80, 40, "Return", stdFont, EVENT_RETURN);
   size(900, 600);
   homeScreen = new HomeScreen();
-  routeScreen = new Screen();
+  routeScreen = new RouteScreen();
   dateScreen = new CalendarScreen();
-  flightScreen = new Screen();
   dataScreen = new DataScreen();
   heatScreen = new HeatScreen();
   orderingScreen = new OrderingScreen();
   alaskaScreen = new AlaskaHeatScreen();
+  barScreen = new BarScreen();
 
   currentScreen = homeScreen;
   previousScreen = currentScreen;
 
-  routeScreen.add(returnButton);
-  flightScreen.add(returnButton);
-
   selectInput("Select a file to process:", "inputSelected");
 }
 
+// containers to store input data and filtered data
 ArrayList<Flight> inputData = new ArrayList<Flight>();
 ArrayList<Flight> filteredData = new ArrayList<Flight>();
 
+// input file selection callback 
 void inputSelected(File selection) {
   if (selection == null) {
     println("Window was closed or the user hit cancel.");
   } else {
     println("User selected " + selection.getAbsolutePath());
+    // reading input as separate lines
     String[] lines = loadStrings(selection);
     for (int i = 1; i < lines.length; i++) {
       Flight flight = new Flight(splitStr(lines[i], ','));
@@ -66,14 +71,20 @@ void inputSelected(File selection) {
       alaskaScreen.addFlight(flight);
     }
   }
+  // airports info
   heatScreen.loadAirportData("iatalatlong.csv");
   dataScreen.setData(inputData);
-  FlightOrigin[] origins = prevailingOrigins(5);
-  for (int i = 0; i < 5; ++i) {
-    println(origins[i].origin + ": " + origins[i].count);
+  barScreen.init();
+  // collect airports from data set
+  Set<String> airports = new HashSet();;
+  for (int i = 0; i < inputData.size(); ++i) {
+    airports.add(inputData.get(i).origin);
+    airports.add(inputData.get(i).dest);
   }
+  routeScreen.setAirports(airports);
 }
 
+// csv file selection callback
 void outputSelected(File selection) {
   if (selection == null) {
     println("Window was closed or the user hit cancel.");
@@ -87,6 +98,9 @@ void outputSelected(File selection) {
   }
 }
 
+//
+// forward callbacks to currentScreen
+//
 void draw() {
   currentScreen.draw();
 }
@@ -105,10 +119,6 @@ void mousePressed() {
   case EVENT_DATE:
     println("Date filter selected!");
     changeScreen(dateScreen);
-    break;
-  case EVENT_FLIGHT:
-    println("Flight filter selected!");
-    changeScreen(flightScreen);
     break;
   case EVENT_DATA:
     println("Data selected!");
@@ -151,6 +161,9 @@ void changeScreen(Screen screen) {
 
 void mouseWheel(MouseEvent event) {
   currentScreen.mouseWheel(event);
+}
+void keyTyped() {
+  currentScreen.keyTyped();
 }
 
 int getDataSize() {

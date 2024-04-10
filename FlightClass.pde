@@ -1,4 +1,4 @@
-
+// splits input csv data string, handles quoted strings
 String[] splitStr(String src, char delim) {
   String[] res = new String[18];
   Arrays.fill(res, "");
@@ -14,6 +14,7 @@ String[] splitStr(String src, char delim) {
   return res;
 }
 
+// reprsents flight data
 class Flight {
   Date flightDate;
   String IATACodeMarketingAirline;
@@ -52,7 +53,7 @@ class Flight {
     arrTime = data[14];
     cancelled = data[15];
     diverted = data[16];
-    distance = Integer.parseInt(data[17]);
+    distance = (int)Double.parseDouble(data[17].equals("") ? "0": data[17]);
   }
   String toString() {
     return flightDate.toString() + "," + IATACodeMarketingAirline + "," + flightNumberMarketingAirline + "," +

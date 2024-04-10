@@ -6,7 +6,7 @@ class CompareFlightOrigin implements Comparator<Flight> {
 
 class CompareFlightDestination implements Comparator<Flight> {
   public int compare(Flight l, Flight r) {
-    return l.origin.compareTo(r.origin);
+    return l.dest.compareTo(r.dest);
   }
 }
 
@@ -22,13 +22,16 @@ class CompareFlightDistance implements Comparator<Flight> {
   }
 }
 
+// screen to select data sorting criteria
 class OrderingScreen extends Screen {
+  PImage backgroundPlane;
   int curFilter = -1;
   int highlighted = 0;
   OrderingScreen() {
+    backgroundPlane = loadImage("turningPlane.jpg");
     add(new Widget(800, 58, 80, 40, "Return", stdFont, EVENT_RETURN));
-    add(new Widget(520, CELL_SIZE * 5 + CELL_SIZE / 2 + 1, 160, 80, "Show Data", stdFont, EVENT_SHOW_DATA));
-    add(new Widget(520, CELL_SIZE * 5 + + CELL_SIZE / 2 + 1 + 120, 160, 80, "Extract to CSV", stdFont, EVENT_EXTRACT_TO_CSV));
+    add(new Widget(520, 200, 160, 80, "Show Data", stdFont, EVENT_SHOW_DATA));
+    add(new Widget(520, 320, 160, 80, "Extract to CSV", stdFont, EVENT_EXTRACT_TO_CSV));
     add(new Widget(200, 80, 160, 80, "By Date", stdFont, EVENT_ORDER_BY_DATE));
     add(new Widget(200, 200, 160, 80, "By Origin", stdFont, EVENT_ORDER_BY_ORIGIN));
     add(new Widget(200, 320, 160, 80, "By Destination", stdFont, EVENT_ORDER_BY_DESTINATION));
@@ -58,9 +61,9 @@ class OrderingScreen extends Screen {
   }
  
   void draw() {
-    background(255);
+    image(backgroundPlane, 0, 0);
     if (highlighted != 0) {
-      fill(255, 200, 200);
+      fill(255);
       rect(200, highlighted, 160, 80);
     }
     textSize(30);
