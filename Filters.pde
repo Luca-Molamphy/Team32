@@ -1,3 +1,4 @@
+// basic type to build bar charts by origin or destination
 class FlightOrigin {
   String origin;
   int count;
@@ -7,18 +8,7 @@ class FlightOrigin {
   }
 };
 
-
-void routeFilter(String origin, String destination) {
-    filteredData.clear();
-    for (int i = 0; i < inputData.size(); ++i) {
-      if ((inputData.get(i).origin == origin) &&(inputData.get(i).dest == destination)) {
-        filteredData.add(inputData.get(i));
-      }
-    }
-    filteredData.sort(new CompareFlightDate());
-    dataScreen.setData(filteredData);
-}
-
+// split full date range into rangeCount subranges 
 Date[] dateRanges(int rangeCount) {
   Date min = inputData.get(0).flightDate;
   Date max = min;
@@ -37,6 +27,7 @@ Date[] dateRanges(int rangeCount) {
   days /= rangeCount;
   Date[] ranges = new Date[rangeCount + 1];
   ranges[0] = min;
+  println("min: " + min.toString() + " max: " + max.toString() + " days: " + days + " months: " + months + " diff: " + diff.toString());
   for (int i = 1; i < rangeCount; ++i) {
     ranges[i] = new Date(ranges[i - 1].day, ranges[i - 1].month, ranges[i - 1].year);
     ranges[i].day += days;
@@ -49,11 +40,13 @@ Date[] dateRanges(int rangeCount) {
     int month = ranges[i].month - 1 + months;
     ranges[i].year += month / 12;
     ranges[i].month = month % 12 + 1;
+    println(i + ": " + ranges[i].toString());
   }
   ranges[rangeCount] = max; 
   return ranges;
 }
 
+// count flights for each date range given
 int[] flightsPerDateRange(Date[] range) {
   int[] res = new int[range.length - 1];
   Arrays.fill(res, 0);
@@ -69,6 +62,7 @@ int[] flightsPerDateRange(Date[] range) {
   return res;
 }
 
+// split full distance range into rangeCount subranges
 int[] distanceRanges(int rangeCount) {
   int[] ranges = new int[rangeCount + 1];
   int min = inputData.get(0).distance;
@@ -89,6 +83,7 @@ int[] distanceRanges(int rangeCount) {
   return ranges;
 }
 
+// count flights for each distance range given
 int[] flightsPerDistanceRange(int[] range) {
   int[] res = new int[range.length - 1];
   Arrays.fill(res, 0);
@@ -115,10 +110,36 @@ class CompareOriginByCount implements Comparator<FlightOrigin> {
   }
 }
 
+// returns count most popular origins and number of flights in each
 FlightOrigin[] prevailingOrigins(int count) {
   Map<String, FlightOrigin> origins = new HashMap<String, FlightOrigin>();
   for (int i = 0; i < inputData.size(); ++i) {
     String origin = inputData.get(i).origin;
+    FlightOrigin fo = origins.get(origin);
+    if (fo == null) {
+      fo = new FlightOrigin(origin, 1);
+      origins.put(origin, fo);
+    } else {
+      fo.count++;
+    }
+  }
+  ArrayList<FlightOrigin> sorted = new ArrayList<FlightOrigin>(origins.values());
+  sorted.sort(new CompareOriginByCount());
+  if (sorted.size() < count) {
+    count = sorted.size();
+  }
+  FlightOrigin[] res = new FlightOrigin[count];
+  for (int i = 0 ; i < count; ++i) {
+    res[i] = sorted.get(i);
+  }
+  return res;
+}
+
+// returns count most popular destinations and number of flights in each
+FlightOrigin[] prevailingDestinations(int count) {
+  Map<String, FlightOrigin> origins = new HashMap<String, FlightOrigin>();
+  for (int i = 0; i < inputData.size(); ++i) {
+    String origin = inputData.get(i).dest;
     FlightOrigin fo = origins.get(origin);
     if (fo == null) {
       fo = new FlightOrigin(origin, 1);

@@ -4,12 +4,16 @@ class CompareFlightDate implements Comparator<Flight> {
   }
 }
 
-
+//
+// screen for selecting date range to filter data
+//
 class CalendarScreen extends Screen {
+  PImage backgroundPlane;
   Calendar calendar = new Calendar(1, 2024);
   Date fromDate, toDate;
  
   CalendarScreen() {
+    backgroundPlane = loadImage("turningPlane.jpg");
     fromDate = new Date(1, 1, 1900);
     toDate = new Date(1, 1, 1900);
     add(new Widget(520, CELL_SIZE * 5 + CELL_SIZE / 2 + 1, 160, 80, "Show Data", stdFont, EVENT_SHOW_DATA));
@@ -21,6 +25,7 @@ class CalendarScreen extends Screen {
     fromDate = toDate;
     toDate = date;
   }
+
   void filter() {
     filteredData.clear();
     for (int i = 0; i < inputData.size(); ++i) {
@@ -32,8 +37,9 @@ class CalendarScreen extends Screen {
     filteredData.sort(new CompareFlightDate());
     dataScreen.setData(filteredData);
   }
+
   void draw() {
-    background(255);
+    image(backgroundPlane, 0, 0);
     calendar.draw();
     textSize(30);
     fill(178, 34, 52);
@@ -50,6 +56,7 @@ class CalendarScreen extends Screen {
 
     super.mouseMoved(mouseX, mouseY);
   }
+
   int mousePressed(int mouseX, int mouseY) {
     int event = calendar.getEvent(mouseX, mouseY);
     if (event == EVENT_DATE_SELECTED)

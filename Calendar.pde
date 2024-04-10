@@ -4,8 +4,11 @@ final int CELL_SIZE = 49;
 int daysInMonth(int month, int year) {
   Calendar calendar = new Calendar(month, year);
   return calendar.days[month];
- }
+}
 
+//
+// incapsulates calendar date, implements date subtraction
+//
 class Date {
   int year;
   int month;
@@ -56,31 +59,34 @@ class Date {
   }
   Date subtract(Date other) {
     Date ans = new Date(day - other.day, month, year);
-    if (ans.day <= 0) {
+    if (ans.day < 0) {
       ans.decreaseMonth();
     }
-    if (ans.day <= 0) {
+    if (ans.day < 0) {
       ans.decreaseMonth();
     }
     ans.month -= other.month;
-    if (ans.month <= 0) {
+    if (ans.month < 0) {
       --ans.year;
     }
     ans.year -= other.year;
     return ans;
   }
   String toString() {
-    return (day < 10? "0": "") + day + "/" + (month < 10? "0": "") + month + "/" + year;
+    return month + "/" + day + "/" + year;
   }
 }
 
 Date parseDate(String str) {
-  int day = Integer.parseInt(str.substring(0, 2));
-  int month = Integer.parseInt(str.substring(3, 5));
-  int year = Integer.parseInt(str.substring(6, 10));
+  int pos = str.indexOf('/');
+  int month = Integer.parseInt(str.substring(0, pos));
+  int pos2 = str.indexOf('/', pos + 1);
+  int day = Integer.parseInt(str.substring(pos + 1, pos2));
+  int year = Integer.parseInt(str.substring(pos2 + 1, str.indexOf(' ', pos2 + 1)));
   return new Date(day, month, year);
 }
 
+// calendar day helper for date selection
 class CalendarCell {
   int rowNumber;
   int columnNumber;
@@ -119,6 +125,9 @@ class CalendarCell {
   }
 }
 
+//
+// date selection widget
+//
 class Calendar {
   int year;
   int month;
@@ -231,7 +240,6 @@ class Calendar {
   }
   
   void draw() {
-    background(255);
     fill(255);
     stroke(0);
     if (cellToHighlightX > 0) {

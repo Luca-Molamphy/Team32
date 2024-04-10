@@ -3,7 +3,7 @@ class HeatScreen extends Screen {
   HashMap<String, Integer> flightDensity = new HashMap<String, Integer>();
   HashMap<String, PVector> airportLocations = new HashMap<String, PVector>();
   Set<String> excludedIATACodes = Set.of("ADQ", "ANC", "BET", "BRW", "CDV", "FAI", "JNU", "KTN", "PSG", "SCC", "SIT", "WRG", "YAK");
-  int maxDensity ;
+  int maxDensity = 0;
 
 // Constructor which initialises the heat map with the images used and adds widgets for navigation between screens
   HeatScreen() {
