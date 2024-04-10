@@ -18,6 +18,10 @@ final int EVENT_ORDER_BY_DISTANCE = 14;
 final int EVENT_ORDERING = 15;
 final int EVENT_ALASKA = 16;
 final int EVENT_BAR_CHART = 17;
+final int EVENT_BAR_CHART_DATE = 19;
+final int EVENT_BAR_CHART_ORIGIN = 20;
+final int EVENT_BAR_CHART_DESTINATION = 21;
+final int EVENT_BAR_CHART_DISTANCE = 22;
 final int EVENT_NULL=0;
 
 PFont stdFont;
@@ -150,6 +154,35 @@ void mousePressed() {
   case EVENT_EXTRACT_TO_CSV:
     currentScreen.filter();
     selectOutput("Save to CSV", "outputSelected");
+    break;
+  case EVENT_BAR_CHART:
+    println("Barchart Selected!");
+    barScreen.init();
+    changeScreen(barScreen);
+    break;
+   case EVENT_BAR_CHART_DATE:
+    println("Date Selected!");
+    barScreen.init();
+    changeScreen(barScreen);
+    barScreen.dateBars();
+    break;
+   case EVENT_BAR_CHART_DISTANCE:
+    println("Distance Selected!");
+    barScreen.init();
+    changeScreen(barScreen);
+    barScreen.distanceBars();
+    break;
+      case EVENT_BAR_CHART_ORIGIN:
+    println("Origin Selected!");
+    barScreen.init();
+    changeScreen(barScreen);
+    barScreen.originBars();
+    break;
+     case EVENT_BAR_CHART_DESTINATION:
+    println("Destination Selected!");
+    barScreen.init();
+    changeScreen(barScreen);
+    barScreen.destinationBars();
     break;
   }
 }
